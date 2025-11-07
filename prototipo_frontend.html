@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Protótipo - Agenda Acadêmica</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Variáveis CSS */
+        :root {
+            --primary-color: #4A148C;
+            --secondary-color: #7B1FA2;
+            --accent-color: #D1C4E9;
+            --text-color: #333333;
+            --light-text-color: #666666;
+            --background-color: #F8F9FA;
+            --card-background: #FFFFFF;
+            --border-color: #E0E0E0;
+            --shadow-color: rgba(0, 0, 0, 0.08);
+            --success-color: #4CAF50;
+            --warning-color: #FFC107;
+            --danger-color: #F44336;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background-color);
+            margin: 0;
+            padding: 0;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3 {
+            color: var(--primary-color);
+            margin-top: 0;
+        }
+
+        .header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 18px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 8px var(--shadow-color);
+            border-bottom: 3px solid var(--secondary-color);
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 1.8rem;
+            color: white;
+            font-weight: 700;
+        }
+        .user-info {
+            font-weight: 500;
+            font-size: 1.1rem;
+        }
+
+        .container {
+            display: flex;
+            max-width: 1440px;
+            margin: 25px auto;
+            padding: 0 25px;
+            gap: 25px;
+        }
+
+        .main-content {
+            flex: 3;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .sidebar {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .module {
+            background-color: var(--card-background);
+            border-radius: 10px;
+            box-shadow: 0 2px 10px var(--shadow-color);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+        .module-header {
+            padding: 18px 25px;
+            border-bottom: 1px solid var(--border-color);
+            background-color: #fcfcfc;
+        }
+        .module-header h2 {
+            margin: 0;
+            font-size: 1.3rem;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+        .module-content {
+            padding: 25px;
+        }
+
+        .kanban-board {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+        }
+        .kanban-column {
+            flex: 1;
+            min-width: 280px;
+            background-color: #f3f3f3;
+            border-radius: 8px;
+            padding: 15px;
+            border: 1px solid #e5e5e5;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .kanban-column h3 {
+            font-size: 1.1rem;
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: var(--light-text-color);
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 8px;
+            font-weight: 600;
+        }
+        .kanban-card {
+            background-color: var(--card-background);
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 12px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+            border-left: 5px solid var(--secondary-color);
+            transition: transform 0.2s ease-in-out;
+        }
+        .kanban-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        .kanban-card.prova { border-left-color: var(--danger-color); }
+        .kanban-card.trabalho { border-left-color: var(--warning-color); }
+        .kanban-card.projeto { border-left-color: var(--success-color); }
+        
+        .kanban-card p {
+            margin: 0;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+        .kanban-card span {
+            font-size: 0.85rem;
+            color: var(--light-text-color);
+            display: block;
+            margin-top: 8px;
+        }
+
+        .list ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .list li {
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1rem;
+        }
+        .list li:last-child {
+            border-bottom: none;
+        }
+        .list .date {
+            font-weight: 600;
+            color: var(--danger-color);
+            font-size: 0.95rem;
+        }
+        .list .discipline-name {
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        .calendar-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        .calendar-nav button {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: var(--primary-color);
+            padding: 5px 8px;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+        .calendar-nav button:hover {
+            background-color: var(--accent-color);
+        }
+
+        .calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+        .calendar-header {
+            font-weight: 700;
+            color: var(--light-text-color);
+            padding: 5px 0;
+        }
+        .calendar-day {
+            background: #fdfdfd;
+            border: 1px solid #eee;
+            padding: 10px 0;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s, box-shadow 0.2s;
+        }
+        .calendar-day:hover {
+            background-color: #f0f0f0;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+        }
+        .calendar-day.empty {
+            background: none;
+            border: none;
+            cursor: default;
+        }
+        .calendar-day.today {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            border-color: var(--secondary-color);
+        }
+        .calendar-day.today:hover {
+             background-color: var(--secondary-color);
+        }
+        .calendar-day.has-event {
+            background: var(--accent-color);
+            font-weight: 500;
+            color: var(--primary-color);
+            border-color: #ccc;
+        }
+        .calendar-day.has-event:hover {
+            background-color: #c7b9e0;
+        }
+
+        @media (max-width: 1024px) {
+            .container {
+                flex-direction: column;
+            }
+            .main-content, .sidebar {
+                flex: none;
+                width: 100%;
+            }
+            .kanban-board {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .kanban-column {
+                min-width: 300px;
+                max-width: 45%;
+            }
+        }
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                padding: 15px 20px;
+            }
+            .header h1 {
+                font-size: 1.6rem;
+                margin-bottom: 10px;
+            }
+            .user-info {
+                font-size: 1rem;
+            }
+            .container {
+                padding: 0 15px;
+                margin: 20px auto;
+                gap: 20px;
+            }
+            .module-header {
+                padding: 15px 20px;
+            }
+            .module-header h2 {
+                font-size: 1.2rem;
+            }
+            .module-content {
+                padding: 20px;
+            }
+            .kanban-board {
+                flex-direction: column;
+                align-items: center;
+            }
+            .kanban-column {
+                max-width: 100%;
+                min-width: unset;
+                width: 95%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <h1>Agenda Acadêmica de TI</h1>
+        <div class="user-info">
+            Olá, Aluno(a)!
+        </div>
+    </header>
+
+    <div class="container">
+
+        <main class="main-content">
+
+            <section class="module">
+                <div class="module-header">
+                    <h2>Meu Quadro de Atividades (Kanban)</h2>
+                </div>
+                <div class="module-content">
+                    <div class="kanban-board">
+                        
+                        <div class="kanban-column">
+                            <h3>A Fazer</h3>
+                            <div class="kanban-card trabalho">
+                                <p>T2 - Modelagem de Dados</p>
+                                <span>Disciplina: Engenharia de Software</span>
+                                <span>Entrega: 10/11/2025</span>
+                            </div>
+                            <div class="kanban-card projeto">
+                                <p>Lab 05 - React Hooks</p>
+                                <span>Disciplina: Dev. Front-End</span>
+                                <span>Entrega: 12/11/2025</span>
+                            </div>
+                             <div class="kanban-card">
+                                <p>Ler Artigo sobre IA</p>
+                                <span>Disciplina: Inteligência Artificial</span>
+                                <span>Entrega: 18/11/2025</span>
+                            </div>
+                        </div>
+                        
+                        <div class="kanban-column">
+                            <h3>Em Andamento</h3>
+                            <div class="kanban-card prova">
+                                <p>Estudar para P1</p>
+                                <span>Disciplina: Redes de Computadores</span>
+                                <span>Entrega: 14/11/2025</span>
+                            </div>
+                             <div class="kanban-card trabalho">
+                                <p>Organizar Apresentação</p>
+                                <span>Disciplina: Metodologia Científica</span>
+                                <span>Entrega: 20/11/2025</span>
+                            </div>
+                        </div>
+
+                        <div class="kanban-column">
+                            <h3>Concluído</h3>
+                            <div class="kanban-card">
+                                <p>T1 - Requisitos de Software</p>
+                                <span>Disciplina: Engenharia de Software</span>
+                                <span>Entrega: 01/11/2025</span>
+                            </div>
+                            <div class="kanban-card projeto">
+                                <p>Projeto Integrador - Fase 1</p>
+                                <span>Disciplina: Projetos de TI</span>
+                                <span>Entrega: 05/10/2025</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <section class="module">
+                <div class="module-header">
+                    <h2>Próximas Entregas (7 dias)</h2>
+                </div>
+                <div class="module-content list">
+                    <ul>
+                        <li>
+                            <span>T2 - Modelagem de Dados (Eng. Software)</span>
+                            <span class="date">10/11/2025 (HOJE)</span>
+                        </li>
+                        <li>
+                            <span>Lab 05 - React Hooks (Dev. Front-End)</span>
+                            <span class="date">12/11/2025</span>
+                        </li>
+                        <li>
+                            <span>P1 - Redes de Computadores</span>
+                            <span class="date">14/11/2025</span>
+                        </li>
+                         <li>
+                            <span>Ler Artigo sobre IA (Inteligência Artificial)</span>
+                            <span class="date">18/11/2025</span>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+        </main>
+
+        <aside class="sidebar">
+            
+            <section class="module">
+                <div class="module-header">
+                    <h2>Calendário</h2>
+                </div>
+                <div class="module-content">
+                    <div class="calendar-nav">
+                        <button>&lt;</button>
+                        <span>Novembro 2025</span>
+                        <button>&gt;</button>
+                    </div>
+                    <div class="calendar">
+                        <div class="calendar-header">D</div>
+                        <div class="calendar-header">S</div>
+                        <div class="calendar-header">T</div>
+                        <div class="calendar-header">Q</div>
+                        <div class="calendar-header">Q</div>
+                        <div class="calendar-header">S</div>
+                        <div class="calendar-header">S</div>
+                        
+                        <div class="calendar-day empty"></div>
+                        <div class="calendar-day empty"></div>
+                        <div class="calendar-day">1</div>
+                        <div class="calendar-day">2</div>
+                        <div class="calendar-day">3</div>
+                        <div class="calendar-day">4</div>
+                        <div class="calendar-day has-event">5</div>
+                        <div class="calendar-day">6</div>
+                        <div class="calendar-day">7</div>
+                        <div class="calendar-day">8</div>
+                        <div class="calendar-day">9</div>
+                        <div class="calendar-day has-event">10</div>
+                        <div class="calendar-day">11</div>
+                        <div class="calendar-day has-event">12</div>
+                        <div class="calendar-day">13</div>
+                        <div class="calendar-day today has-event">14</div>
+                        <div class="calendar-day">15</div>
+                        <div class="calendar-day">16</div>
+                        <div class="calendar-day">17</div>
+                        <div class="calendar-day has-event">18</div>
+                        <div class="calendar-day">19</div>
+                        <div class="calendar-day has-event">20</div>
+                        <div class="calendar-day">21</div>
+                        <div class="calendar-day">22</div>
+                        <div class="calendar-day">23</div>
+                        <div class="calendar-day">24</div>
+                        <div class="calendar-day">25</div>
+                        <div class="calendar-day">26</div>
+                        <div class="calendar-day">27</div>
+                        <div class="calendar-day">28</div>
+                        <div class="calendar-day">29</div>
+                        <div class="calendar-day">30</div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="module">
+                <div class="module-header">
+                    <h2>Minhas Disciplinas</h2>
+                </div>
+                <div class="module-content list">
+                    <ul>
+                        <li><span class="discipline-name">Engenharia de Software</span></li>
+                        <li><span class="discipline-name">Redes de Computadores</span></li>
+                        <li><span class="discipline-name">Desenvolvimento Front-End</span></li>
+                        <li><span class="discipline-name">Banco de Dados</span></li>
+                        <li><span class="discipline-name">Inteligência Artificial</span></li>
+                        <li><span class="discipline-name">Metodologia Científica</span></li>
+                    </ul>
+                </div>
+            </section>
+
+        </aside>
+
+    </div>
+
+</body>
+</html>

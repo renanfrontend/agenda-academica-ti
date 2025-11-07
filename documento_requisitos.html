@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentação: Requisitos do Sistema</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Variáveis CSS */
+        :root {
+            --primary-color: #4A148C;
+            --secondary-color: #7B1FA2;
+            --accent-color: #D1C4E9;
+            --text-color: #333333;
+            --light-text-color: #666666;
+            --background-color: #F8F9FA;
+            --card-background: #FFFFFF;
+            --border-color: #E0E0E0;
+            --shadow-color: rgba(0, 0, 0, 0.08);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background-color);
+            margin: 0;
+            padding: 0;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 30px auto;
+            padding: 30px;
+            background-color: var(--card-background);
+            border-radius: 10px;
+            box-shadow: 0 4px 15px var(--shadow-color);
+            border: 1px solid var(--border-color);
+        }
+
+        h1 {
+            color: var(--primary-color);
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 3px solid var(--accent-color);
+            padding-bottom: 15px;
+        }
+
+        h2 {
+            color: var(--secondary-color);
+            font-size: 1.8rem;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        h3 {
+            color: var(--text-color);
+            font-size: 1.3rem;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        ul li {
+            background-color: #fcfcfc;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 15px 20px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: flex-start;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        ul li strong {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-right: 10px;
+            flex-shrink: 0;
+            width: 80px;
+        }
+        ul li span {
+            flex-grow: 1;
+            color: var(--light-text-color);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 20px auto;
+                padding: 20px;
+            }
+            h1 {
+                font-size: 2rem;
+                margin-bottom: 30px;
+            }
+            h2 {
+                font-size: 1.5rem;
+                margin-top: 30px;
+            }
+            ul li {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 12px 15px;
+            }
+            ul li strong {
+                margin-right: 0;
+                margin-bottom: 5px;
+                width: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Documentação de Requisitos do Sistema</h1>
+
+        <section>
+            <h2>1. Requisitos Funcionais (RF)</h2>
+            <p>Os Requisitos Funcionais (RF) descrevem o que o sistema <strong>deve fazer</strong> (as funções e comportamentos).</p>
+            <ul>
+                <li><strong>RF001:</strong> <span>O usuário deve poder se cadastrar no sistema fornecendo nome, e-mail e senha.</span></li>
+                <li><strong>RF002:</strong> <span>O usuário deve poder fazer login no sistema com e-mail e senha.</span></li>
+                <li><strong>RF003:</strong> <span>O sistema deve exibir um painel (dashboard) com uma visualização de calendário (mensal/semanal).</span></li>
+                <li><strong>RF004:</strong> <span>O usuário deve poder cadastrar, editar e excluir Disciplinas (ex: "Engenharia de Software", "Banco de Dados").</span></li>
+                <li><strong>RF005:</strong> <span>O usuário deve poder cadastrar, editar e excluir Atividades (ex: "Prova", "Trabalho", "Projeto", "Laboratório").</span></li>
+                <li><strong>RF006:</strong> <span>Ao cadastrar uma atividade, o usuário deve poder associá-la a uma disciplina, definir uma data de entrega, um tipo e um status.</span></li>
+                <li><strong>RF007:</strong> <span>A atividade deve ter um <strong>Status</strong> (ex: "A Fazer", "Em Andamento", "Concluído", "Enviado"). (Diferencial)</span></li>
+                <li><strong>RF008:</strong> <span>O sistema deve exibir um "kanban" simples na dashboard para o usuário arrastar atividades entre os status. (Diferencial)</span></li>
+                <li><strong>RF009:</strong> <span>O sistema deve exibir uma lista de atividades futuras (próximos 7 dias) na dashboard.</span></li>
+                <li><strong>RF010:</strong> <span>O sistema deve enviar notificações (lembretes) ao usuário sobre atividades com prazo próximo (ex: 48h antes).</span></li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>2. Requisitos Não Funcionais (RNF)</h2>
+            <p>Os Requisitos Não Funcionais (RNF) descrevem <em>como</em> o sistema deve operar, focando em qualidades e restrições (ex: desempenho, segurança, usabilidade).</p>
+            <ul>
+                <li><strong>RNF001:</strong> <span>A interface deve ser limpa, intuitiva e responsiva, adaptando-se a desktops e dispositivos móveis. (Usabilidade)</span></li>
+                <li><strong>RNF002:</strong> <span>O painel principal (dashboard) e o calendário devem carregar em menos de 2 segundos. (Desempenho)</span></li>
+                <li><strong>RNF003:</strong> <span>O sistema deve ser compatível com as versões mais recentes dos navegadores Google Chrome, Mozilla Firefox e Microsoft Edge. (Compatibilidade)</span></li>
+                <li><strong>RNF004:</strong> <span>As senhas dos usuários devem ser armazenadas de forma criptografada (hashed) no banco de dados. (Segurança)</span></li>
+                <li><strong>RNF005:</strong> <span>A comunicação entre o cliente e o servidor deve ser feita via HTTPS. (Segurança)</span></li>
+                <li><strong>RNF006:</strong> <span>O código-fonte deve seguir padrões de projeto (ex: MVC ou arquitetura de componentes) para facilitar futuras atualizações. (Manutenibilidade)</span></li>
+            </ul>
+        </section>
+    </div>
+
+</body>
+</html>
