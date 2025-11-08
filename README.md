@@ -8,7 +8,7 @@ Este projeto foi realizado como parte integrante do curso de **Análise e Desenv
 
 * **Curso:** Análise e Desenvolvimento de Sistemas
 * **Disciplina:** Modelagem de Software
-* **Semestre:** [Insira o Semestre, ex: 2º Semestre/2025]
+* **Semestre:** [2º Semestre/2025]
 * **Instituição:** Universidade São Judas Tadeu
 
 ---
