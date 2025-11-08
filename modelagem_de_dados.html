@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentação: Modelagem de Dados</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS from documento_requisitos.html */
+        :root {
+            --primary-color: #4A148C;
+            --secondary-color: #7B1FA2;
+            --accent-color: #D1C4E9;
+            --text-color: #333333;
+            --light-text-color: #666666;
+            --background-color: #F8F9FA;
+            --card-background: #FFFFFF;
+            --border-color: #E0E0E0;
+            --shadow-color: rgba(0, 0, 0, 0.08);
+            --danger-color: #F44336; /* Added for PK contrast */
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background-color);
+            margin: 0;
+            padding: 0;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 30px auto;
+            padding: 30px;
+            background-color: var(--card-background);
+            border-radius: 10px;
+            box-shadow: 0 4px 15px var(--shadow-color);
+            border: 1px solid var(--border-color);
+        }
+
+        h1 {
+            color: var(--primary-color);
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 3px solid var(--accent-color);
+            padding-bottom: 15px;
+        }
+
+        h2 {
+            color: var(--secondary-color);
+            font-size: 1.8rem;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        h3 {
+            color: var(--text-color);
+            font-size: 1.3rem;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        .table-model {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        .table-model th, .table-model td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: left;
+            font-size: 0.95rem;
+        }
+        .table-model th {
+            background-color: var(--accent-color);
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+        .table-model tr:nth-child(even) {
+            background-color: #f7f7f7;
+        }
+        .table-model .pk {
+            font-weight: bold;
+            color: var(--danger-color); 
+        }
+        .table-model .fk {
+            font-style: italic;
+            color: var(--secondary-color);
+        }
+        .table-model caption {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin: 15px 0 10px;
+            color: var(--text-color);
+        }
+        
+        .mer-representation {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f3f3f3;
+            border-radius: 8px;
+            border: 1px dashed var(--border-color);
+        }
+        .mer-representation p {
+            margin: 5px 0;
+            color: var(--light-text-color);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 20px auto;
+                padding: 20px;
+            }
+            h1 {
+                font-size: 2rem;
+                margin-bottom: 30px;
+            }
+            h2 {
+                font-size: 1.5rem;
+                margin-top: 30px;
+            }
+            .table-model, .table-model thead, .table-model tbody, .table-model th, .table-model td, .table-model tr {
+                display: block;
+            }
+            .table-model thead tr {
+                position: absolute;
+                top: -9999px;
+                left: -9999px;
+            }
+            .table-model tr {
+                border: 1px solid var(--border-color);
+                margin-bottom: 10px;
+                border-radius: 8px;
+            }
+            .table-model td {
+                border: none;
+                position: relative;
+                padding-left: 50%;
+                text-align: right;
+            }
+            .table-model td:before {
+                content: attr(data-label);
+                position: absolute;
+                left: 6px;
+                width: 45%;
+                padding-right: 10px;
+                white-space: nowrap;
+                text-align: left;
+                font-weight: 600;
+                color: var(--primary-color);
+            }
+            .table-model .pk, .table-model .fk {
+                text-align: right;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Documentação de Modelagem de Dados</h1>
+
+        <section>
+            <h2>1. Modelo Entidade-Relacionamento (MER)</h2>
+            <p>O MER (Modelo Entidade-Relacionamento) representa a estrutura conceitual dos dados, identificando as entidades, seus atributos e os relacionamentos entre elas.</p>
+            
+            <h3>Entidades Principais</h3>
+            <div class="mer-representation">
+                <p><strong>USUÁRIO:</strong> Entidade central do sistema (RF001).</p>
+                <p><strong>DISCIPLINA:</strong> Entidade gerenciada pelo usuário (RF004).</p>
+                <p><strong>ATIVIDADE:</strong> Entidade principal a ser registrada, associada a uma disciplina (RF005, RF006).</p>
+                <p><strong>TIPO_ATIVIDADE e STATUS_ATIVIDADE:</strong> Entidades auxiliares para categorização (RF006, RF007).</p>
+            </div>
+            
+            <h3>Relacionamentos</h3>
+            <div class="mer-representation">
+                <p><strong>USUÁRIO (1) : N (DISCIPLINA):</strong> Um usuário possui múltiplas disciplinas. Uma disciplina pertence a um único usuário.</p>
+                <p><strong>DISCIPLINA (1) : N (ATIVIDADE):</strong> Uma disciplina pode ter múltiplas atividades. Uma atividade pertence a uma única disciplina.</p>
+                <p><strong>TIPO_ATIVIDADE (1) : N (ATIVIDADE):</strong> Um tipo (e.g., Prova) pode ser associado a múltiplas atividades. Uma atividade tem um único tipo.</p>
+                <p><strong>STATUS_ATIVIDADE (1) : N (ATIVIDADE):</strong> Um status (e.g., A Fazer) pode ser associado a múltiplas atividades. Uma atividade tem um único status.</p>
+            </div>
+        </section>
+
+        <section>
+            <h2>2. Modelo Lógico de Banco de Dados</h2>
+            <p>O Modelo Lógico detalha a estrutura das tabelas, chaves primárias (PK), chaves estrangeiras (FK), atributos e seus tipos, pronto para ser implementado em um SGBD relacional.</p>
+
+            <h3>Tabela: USUARIO</h3>
+            <table class="table-model">
+                <caption>Tabela: USUARIO</caption>
+                <thead>
+                    <tr>
+                        <th>Atributo</th>
+                        <th>Tipo</th>
+                        <th>Detalhe</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td data-label="Atributo" class="pk">id_usuario</td>
+                        <td data-label="Tipo">INT</td>
+                        <td data-label="Detalhe">Chave Primária (PK), Auto Incremento</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Atributo">nome</td>
+                        <td data-label="Tipo">VARCHAR(100)</td>
+                        <td data-label="Detalhe">Nome completo do usuário (RF001)</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Atributo">email</td>
+                        <td data-label="Tipo">VARCHAR(150)</td>
+                        <td data-label="Detalhe">E-mail de login, ÚNICO (RF001, RF002)</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Atributo">senha_hash</td>
+                        <td data-label="Tipo">CHAR(60)</td>
+                        <td data-label="Detalhe">Senha criptografada (hashed) (RNF004)</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Atributo">data_cadastro</td>
+                        <td data-label="Tipo">DATETIME</td>
+                        <td data-label="Detalhe">Registro da criação da conta</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Tabela: DISCIPLINA</h3>
+            <table class="table-model">
+                <caption>Tabela: DISCIPLINA</caption>
+                <thead>
+                    <tr>
+                        <th>Atributo</th>
+                        <th>Tipo</th>
+                        <th>Detalhe</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td data-label="Atributo" class="pk">id_disciplina</td>
+                        <td data-label="Tipo">INT</td>
+                        <td data-label="Detalhe">Chave Primária (PK), Auto Incremento</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Atributo" class="fk">id_usuario</td>
+                        <td data-label="Tipo">INT</td>
+                        <td data-label="Detalhe">Chave Estrangeira (FK) para USUARIO (Relacionamento 1:N)</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Atributo">nome</td>
+                        <td data-label="Tipo">VARCHAR(100)</td>
+                        <td data-label="Detalhe">Nome da disciplina (RF004)</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Tabela: TIPO_ATIVIDADE</h3>
+            <table class="table-model">
+                <caption>Tabela: TIPO_ATIVIDADE</caption>
+                <thead>
+                    <tr>
+                        <th>Atributo</th>
+                        <th>Tipo</th>
+                        <th>Detalhe</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td data-label="Atributo" class="pk">id_tipo</td>
+                        <td data-label="Tipo">INT</td>
+                        <td data-label="Detalhe">Chave Primária (PK), Auto Incremento</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Atributo">nome_tipo</td>
+                        <td data-label="Tipo">VARCHAR(50)</td>
+                        <td data-label="Detalhe">Nome do tipo de atividade (e.g., Prova, Trabalho, Projeto) (RF005)</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h3>Tabela: STATUS_ATIVIDADE</h3>
+            <table class="table-model">
+                <caption>Tabela: STATUS_ATIVIDADE</caption>
+                <thead>
+                    <tr>
+                        <th>Atributo</th>
+                        <th>Tipo</th>
+                        <th>Detalhe</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td data-label="Atributo" class="pk">id_status</td>
+                        <td data-label="Tipo">INT</td>
+                        <td data-label="Detalhe">Chave Primária (PK), Auto Incremento</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Atributo">nome_status</td>
+                        <td data-label="Tipo">VARCHAR(50)</td>
+                        <td data-label="Detalhe">Nome do status (e.g., A Fazer, Em Andamento, Concluído) (RF007)</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Tabela: ATIVIDADE</h3>
+            <table class="table-model">
+                <caption>Tabela: ATIVIDADE</caption>
+                <thead>
+                    <tr>
+                        <th>Atributo</th>
+                        <th>Tipo</th>
+                        <th>Detalhe</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td data-label="Atributo" class="pk">id_atividade</td>
+                        <td data-label="Tipo">INT</td>
+                        <td data-label="Detalhe">Chave Primária (PK), Auto Incremento</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Atributo" class="fk">id_disciplina</td>
+                        <td data-label="Tipo">INT</td>
+                        <td data-label="Detalhe">Chave Estrangeira (FK) para DISCIPLINA (RF006)</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Atributo" class="fk">id_tipo</td>
+                        <td data-label="Tipo">INT</td>
+                        <td data-label="Detalhe">Chave Estrangeira (FK) para TIPO_ATIVIDADE (RF006)</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Atributo" class="fk">id_status</td>
+                        <td data-label="Tipo">INT</td>
+                        <td data-label="Detalhe">Chave Estrangeira (FK) para STATUS_ATIVIDADE (RF007, RF008)</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Atributo">titulo</td>
+                        <td data-label="Tipo">VARCHAR(200)</td>
+                        <td data-label="Detalhe">Nome/descrição curta da atividade (RF005)</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Atributo">data_entrega</td>
+                        <td data-label="Tipo">DATE</td>
+                        <td data-label="Detalhe">Data limite para a atividade (RF006, RF009)</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Atributo">data_criacao</td>
+                        <td data-label="Tipo">DATETIME</td>
+                        <td data-label="Detalhe">Registro de quando a atividade foi criada</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </section>
+    </div>
+
+</body>
+</html>
